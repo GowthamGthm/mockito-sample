@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class ToggleService {
@@ -17,9 +18,12 @@ public class ToggleService {
         map.put("b" , false);
     }
 
-    public boolean isEnabled(String key) {
+    public static boolean isEnabled(String key) {
         System.out.println("feature toggle called");
-        return map.get(key);
+        key = Optional.ofNullable(key).orElse("");
+        Boolean bool =  map.get(key.toLowerCase());
+        return Boolean.TRUE.equals(bool);
     }
+
 
 }
