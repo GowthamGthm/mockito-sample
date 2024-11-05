@@ -1,6 +1,7 @@
 package com.gthm.api.kafka;
 
 
+import com.gthm.api.kafka.model.StructureRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

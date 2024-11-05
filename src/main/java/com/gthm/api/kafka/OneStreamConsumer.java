@@ -1,5 +1,6 @@
 package com.gthm.api.kafka;
 
+import com.gthm.api.kafka.model.StructureRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.apache.avro.Schema;

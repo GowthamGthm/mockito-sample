@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "name": "Item",
+  "name": "StructureRequest",
   "fields": [
     {
       "name": "id",

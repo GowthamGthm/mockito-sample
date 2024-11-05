@@ -1,6 +1,5 @@
-package com.gthm.api.kafka;
+package com.gthm.api.kafka.model;
 
-import com.gthm.api.models.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

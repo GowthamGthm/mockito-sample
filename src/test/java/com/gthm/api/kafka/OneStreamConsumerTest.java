@@ -1,6 +1,7 @@
 package com.gthm.api.kafka;
 
 
+import com.gthm.api.kafka.model.StructureRequest;
 import org.apache.avro.Schema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
