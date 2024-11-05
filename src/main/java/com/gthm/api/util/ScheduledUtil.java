@@ -3,13 +3,12 @@ package com.gthm.api.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gthm.api.dto.PokemonResponse;
 import com.gthm.api.models.Pokemon;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 

@@ -1,0 +1,67 @@
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+
+# Ignore IntelliJ IDEA project-specific files
+out/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/**/vcs.xml
+
+# Ignore Maven target directory
+target/
+/target/
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*.swo
+
+# Compiled class files
+*.class
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Maven wrapper files (if used)
+.mvn/
+mvnw
+mvnw.cmd
+
+# Eclipse files (if project is imported into Eclipse at any point)
+.project
+.classpath
+.settings/
+
+# Bytecode-based files
+*.jar
+*.war
+*.ear
+
+# Lombok generated files
+*.lombok.config
+
+# Build directories
+/build/
+bin/
+
+# Ignore generated docs (e.g., Javadocs)
+/docs/
+
+# Ignore build artifacts and IDE indexing files
+*.bak
+*.tmp
+*.idea_modules/
+
+# User-specific files
+*.sublime-workspace
+*.sublime-project
+
+# Environment variables and secrets
+.env
+*.env.*

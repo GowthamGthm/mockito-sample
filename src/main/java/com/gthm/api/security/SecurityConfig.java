@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,8 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private JwtAuthEntryPoint authEntryPoint;
-    private CustomUserDetailsService userDetailsService;
+    private final JwtAuthEntryPoint authEntryPoint;
+    private final CustomUserDetailsService userDetailsService;
+
     @Autowired
     public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthEntryPoint authEntryPoint) {
         this.userDetailsService = userDetailsService;
@@ -28,18 +30,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(authEntryPoint)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic();
+                .csrf(csrf -> csrf.disable())
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(authEntryPoint))
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults());
+
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -51,12 +52,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public  JWTAuthenticationFilter jwtAuthenticationFilter() {
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
         return new JWTAuthenticationFilter();
     }
 }

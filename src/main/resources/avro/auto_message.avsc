@@ -1,0 +1,46 @@
+{
+  "type": "record",
+  "name": "Item",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "type",
+      "type": "string"
+    },
+    {
+      "name": "reviews",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "Review",
+          "fields": [
+            {
+              "name": "id",
+              "type": "int"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "content",
+              "type": "string"
+            },
+            {
+              "name": "stars",
+              "type": "int"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
