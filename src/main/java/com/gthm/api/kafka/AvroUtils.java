@@ -3,17 +3,20 @@ package com.gthm.api.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.BinaryDecoder;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AvroUtils {
 
@@ -21,13 +24,9 @@ public class AvroUtils {
 
     private final ObjectMapper mapper = new ObjectMapper();
     private final Schema avroSchema;
-    private final GenericDatumReader<GenericRecord> avroReader;
-    private final GenericDatumWriter<GenericRecord> avroWriter;
 
     public AvroUtils(Schema avroSchema) {
         this.avroSchema = avroSchema;
-        avroReader = new GenericDatumReader<>(avroSchema);
-        avroWriter = new GenericDatumWriter<>(avroSchema);
     }
 
     private Object genericRecordToObject(String json, Class clazz) {
@@ -57,6 +56,5 @@ public class AvroUtils {
         }
         return object;
     }
-
 
 }

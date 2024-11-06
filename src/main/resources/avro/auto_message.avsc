@@ -20,7 +20,7 @@
         "type": "array",
         "items": {
           "type": "record",
-          "name": "Review",
+          "name": "reviews_array_item",
           "fields": [
             {
               "name": "id",
