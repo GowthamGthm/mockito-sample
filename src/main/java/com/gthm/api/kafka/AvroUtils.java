@@ -22,7 +22,7 @@ public class AvroUtils {
         this.avroSchema = avroSchema;
     }
 
-    public byte[] jsonToAvroBytes(String json) throws IOException {
+    public byte[] jsonToAvroBytes(String json) {
 
         DatumReader<Object> reader = new GenericDatumReader<>(this.avroSchema);
         GenericDatumWriter<Object> writer = new GenericDatumWriter<>(this.avroSchema);
