@@ -18,18 +18,17 @@ import java.nio.file.Path;
 @ExtendWith(MockitoExtension.class)
 class AvroUtilsTest {
 
+    private String AVSC_FILE_PATH = "avro/auto_message.avsc";
+    private String JSON_FILE_PATH = "json/pokemon.json";
+
 
     @Test
     public void test_success_parse() throws IOException {
-        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource("avro/auto_message.avsc"));
+        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
         AvroUtils avroUtils = new AvroUtils(schema);
 
-        ClassPathResource jsonClassPath = new ClassPathResource("json/pokemon.json");
-        String json = Files.readString(Path.of(jsonClassPath.getFile()
-                                                            .getAbsolutePath()));
-
-        byte[] bytes = TestAvro.jsonToAvroBytes(json, schema);
-        SdpRecord sdpRecord = new SdpRecord(bytes, json);
+        byte[] bytes = TestAvro.jsonToAvroBytes(AVSC_FILE_PATH, JSON_FILE_PATH);
+        SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
         StructureRequest obj = (StructureRequest) avroUtils.avroBytesToObj(sdpRecord, StructureRequest.class);
 
@@ -39,10 +38,10 @@ class AvroUtilsTest {
 
     @Test
     public void test_failure_parse_with_string_byte() throws IOException {
-        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource("avro/auto_message.avsc"));
+        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
         AvroUtils avroUtils = new AvroUtils(schema);
 
-        ClassPathResource jsonClassPath = new ClassPathResource("json/pokemon.json");
+        ClassPathResource jsonClassPath = new ClassPathResource(JSON_FILE_PATH);
         String json = Files.readString(Path.of(jsonClassPath.getFile()
                                                             .getAbsolutePath()));
 
@@ -55,7 +54,7 @@ class AvroUtilsTest {
 
     @Test
     public void test_failure_for_null_bytes() throws IOException {
-        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource("avro/auto_message.avsc"));
+        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
         AvroUtils avroUtils = new AvroUtils(schema);
 
         SdpRecord sdpRecord = new SdpRecord(null, "");
@@ -67,15 +66,12 @@ class AvroUtilsTest {
 
     @Test
     public void test_failure_for_wrong_target_class() throws IOException {
-        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource("avro/auto_message.avsc"));
+
+        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
         AvroUtils avroUtils = new AvroUtils(schema);
 
-        ClassPathResource jsonClassPath = new ClassPathResource("json/pokemon.json");
-        String json = Files.readString(Path.of(jsonClassPath.getFile()
-                                                            .getAbsolutePath()));
-
-        byte[] bytes = TestAvro.jsonToAvroBytes(json, schema);
-        SdpRecord sdpRecord = new SdpRecord(bytes, json);
+        byte[] bytes = TestAvro.jsonToAvroBytes(schema , JSON_FILE_PATH);
+        SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> avroUtils.avroBytesToObj(sdpRecord, Review.class));
 

@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import java.io.FileNotFoundException;
 
 
-class FileUtilityTest {
+public class FileUtilityTest {
 
     @Test
     void testLoadFile() throws Exception {
