@@ -116,6 +116,12 @@
 			<version>0.2.15</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>avro-mapper</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
 
 	</dependencies>
 
