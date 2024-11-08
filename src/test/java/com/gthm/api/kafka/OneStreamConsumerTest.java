@@ -59,7 +59,7 @@ public class OneStreamConsumerTest {
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
         when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
@@ -100,7 +100,7 @@ public class OneStreamConsumerTest {
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
         when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord, StructureRequest.class)).thenThrow(new RuntimeException("Avro conversion failed"));
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenThrow(new RuntimeException("Avro conversion failed"));
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
@@ -117,7 +117,7 @@ public class OneStreamConsumerTest {
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
         when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
         doThrow(new RuntimeException("Transformation error")).when(eventTransformer)
                                                              .transformDealerNavExceptions(mockStructureRequest);
 
@@ -151,7 +151,7 @@ public class OneStreamConsumerTest {
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
         when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
@@ -167,8 +167,8 @@ public class OneStreamConsumerTest {
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
         when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord1, StructureRequest.class)).thenReturn(mockStructureRequest);
-        when(mockAvroUtils.avroBytesToObj(mockSdpRecord2, StructureRequest.class)).thenReturn(mockStructureRequest);
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord1, StructureRequest.class)).thenReturn(mockStructureRequest);
+        when(mockAvroUtils.avroBytesToObject(mockSdpRecord2, StructureRequest.class)).thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord1, acknowledgment);
         oneStreamConsumer.listen(mockSdpRecord2, acknowledgment);

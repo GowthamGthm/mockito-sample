@@ -56,7 +56,7 @@ public class OneStreamConsumer {
                 LOGGER.info("FeatureToggle enabled started processing the message for the topic: {}",
                         oneStreamTopicName);
                 AvroUtils avroUtils = newAvroUtilsObject(avroSchema);
-                structureRequest = (StructureRequest) avroUtils.avroBytesToObj(sdpRecord,
+                structureRequest = (StructureRequest) avroUtils.avroBytesToObject(sdpRecord,
                         StructureRequest.class);
                 eventTransformer.transformDealerNavExceptions(structureRequest);
             }

@@ -35,4 +35,34 @@ class FileHelperTest {
                 IOException.class);
 
     }
+
+
+    //     newly added test cases
+
+    @Test
+    void testLoadFile_as_string() throws Exception {
+        final String result = FileHelper.getFileContents(FILE_PATH);
+
+        assertThat(result).isNotNull().isNotEmpty();
+        assertThat(result).isInstanceOf(String.class);
+    }
+
+    @Test
+    void testLoaFile_as_string_NullPointerException() {
+
+        assertThatThrownBy(
+                () -> FileHelper.getFileContents(FILE_PATH + "a")).isInstanceOf(
+                NullPointerException.class);
+
+    }
+
+    @Test
+    void testLoaFile_as_string_null_file_path() {
+
+        assertThatThrownBy(
+                () -> FileHelper.getFileContents(null)).isInstanceOf(
+                NullPointerException.class);
+
+    }
+
 }
