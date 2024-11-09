@@ -3,13 +3,11 @@ package com.gthm.api.kafka;
 
 import com.gthm.api.kafka.model.StructureRequest;
 import org.apache.avro.Schema;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.kafka.support.Acknowledgment;
@@ -39,6 +37,8 @@ public class OneStreamConsumerTest {
     @Mock
     private Acknowledgment acknowledgment;
 
+    MockedStatic<AvroUtils> mockAvroUtils;
+
     @BeforeEach
     void setUp() throws IOException {
 
@@ -49,22 +49,26 @@ public class OneStreamConsumerTest {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource("avro/auto_message.avsc"));
         ReflectionTestUtils.setField(oneStreamConsumer, "avroSchema", schema);
 
+        mockAvroUtils = mockStatic(AvroUtils.class);
+    }
+
+    @AfterEach
+    public void after() {
+        mockAvroUtils.close();
     }
 
     @Test
     public void testListen_withFeatureToggleEnabled() throws Exception {
         SdpRecord mockSdpRecord = mock(SdpRecord.class);
         StructureRequest mockStructureRequest = mock(StructureRequest.class);
-        AvroUtils mockAvroUtils = mock(AvroUtils.class);
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord), any(Schema.class),
+                eq(StructureRequest.class))).thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
         verify(featureToggleService).isFeatureToggleEnabled(anyString());
-        verify(oneStreamConsumer).newAvroUtilsObject(any());
         verify(eventTransformer).transformDealerNavExceptions(mockStructureRequest);
         verify(acknowledgment).acknowledge();
     }
@@ -85,7 +89,6 @@ public class OneStreamConsumerTest {
     public void testListen_exceptionDuringProcessing() throws Exception {
         SdpRecord mockSdpRecord = mock(SdpRecord.class);
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenThrow(new RuntimeException("Mocked exception"));
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
@@ -96,11 +99,9 @@ public class OneStreamConsumerTest {
     @Test
     public void testListen_avroConversionFailure() throws Exception {
         SdpRecord mockSdpRecord = mock(SdpRecord.class);
-        AvroUtils mockAvroUtils = mock(AvroUtils.class);
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenThrow(new RuntimeException("Avro conversion failed"));
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord), any(Schema.class), eq(StructureRequest.class))).thenThrow(new RuntimeException("Avro conversion failed"));
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
 
@@ -113,11 +114,10 @@ public class OneStreamConsumerTest {
     public void testListen_exceptionDuringTransformation() throws Exception {
         SdpRecord mockSdpRecord = mock(SdpRecord.class);
         StructureRequest mockStructureRequest = mock(StructureRequest.class);
-        AvroUtils mockAvroUtils = mock(AvroUtils.class);
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord), any(Schema.class), eq(StructureRequest.class)))
+                     .thenReturn(mockStructureRequest);
         doThrow(new RuntimeException("Transformation error")).when(eventTransformer)
                                                              .transformDealerNavExceptions(mockStructureRequest);
 
@@ -147,15 +147,12 @@ public class OneStreamConsumerTest {
     public void testListen_newAvroUtilsObject_calledOnce() throws Exception {
         SdpRecord mockSdpRecord = mock(SdpRecord.class);
         StructureRequest mockStructureRequest = mock(StructureRequest.class);
-        AvroUtils mockAvroUtils = mock(AvroUtils.class);
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord, StructureRequest.class)).thenReturn(mockStructureRequest);
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord), any(Schema.class), eq(StructureRequest.class)))
+                     .thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord, acknowledgment);
-
-        verify(oneStreamConsumer, times(1)).newAvroUtilsObject(any());
     }
 
     @Test
@@ -163,12 +160,10 @@ public class OneStreamConsumerTest {
         SdpRecord mockSdpRecord1 = mock(SdpRecord.class);
         SdpRecord mockSdpRecord2 = mock(SdpRecord.class);
         StructureRequest mockStructureRequest = mock(StructureRequest.class);
-        AvroUtils mockAvroUtils = mock(AvroUtils.class);
 
         when(featureToggleService.isFeatureToggleEnabled(anyString())).thenReturn(true);
-        when(oneStreamConsumer.newAvroUtilsObject(any())).thenReturn(mockAvroUtils);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord1, StructureRequest.class)).thenReturn(mockStructureRequest);
-        when(mockAvroUtils.avroBytesToObject(mockSdpRecord2, StructureRequest.class)).thenReturn(mockStructureRequest);
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord1), any(Schema.class), eq(StructureRequest.class))).thenReturn(mockStructureRequest);
+        mockAvroUtils.when(() -> AvroUtils.avroBytesToObject(eq(mockSdpRecord2), any(Schema.class), eq(StructureRequest.class))).thenReturn(mockStructureRequest);
 
         oneStreamConsumer.listen(mockSdpRecord1, acknowledgment);
         oneStreamConsumer.listen(mockSdpRecord2, acknowledgment);

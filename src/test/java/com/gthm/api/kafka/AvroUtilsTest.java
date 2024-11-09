@@ -21,13 +21,12 @@ class AvroUtilsTest {
     @Test
     public void test_success_parse() throws IOException {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = avroUtils.jsonToAvroBytes(json);
+        byte[] bytes = AvroUtils.jsonToAvroBytes(json , schema , StructureRequest.class);
         SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
-        StructureRequest obj = (StructureRequest) avroUtils.avroBytesToObject(sdpRecord,
+        StructureRequest obj = (StructureRequest) AvroUtils.avroBytesToObject(sdpRecord, schema,
                 StructureRequest.class);
 
         Assertions.assertNotNull(obj);
@@ -37,25 +36,22 @@ class AvroUtilsTest {
     @Test
     public void test_failure_parse_with_string_byte() throws IOException {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
         SdpRecord sdpRecord = new SdpRecord(json.getBytes(), json);
 
         Assertions.assertThrows(RuntimeException.class,
-                () -> avroUtils.avroBytesToObject(sdpRecord, StructureRequest.class));
+                () -> AvroUtils.avroBytesToObject(sdpRecord, schema, StructureRequest.class));
 
     }
 
     @Test
     public void test_failure_for_null_bytes() throws IOException {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
-
         SdpRecord sdpRecord = new SdpRecord(null, "");
 
         Assertions.assertThrows(RuntimeException.class,
-                () -> avroUtils.avroBytesToObject(sdpRecord, StructureRequest.class));
+                () -> AvroUtils.avroBytesToObject(sdpRecord, schema, StructureRequest.class));
 
     }
 
@@ -63,14 +59,13 @@ class AvroUtilsTest {
     public void test_failure_for_wrong_target_class() throws IOException {
 
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = avroUtils.jsonToAvroBytes(json);
+        byte[] bytes = AvroUtils.jsonToAvroBytes(json, schema , StructureRequest.class);
         SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
         Assertions.assertThrows(RuntimeException.class,
-                () -> avroUtils.avroBytesToObject(sdpRecord, Review.class));
+                () -> AvroUtils.avroBytesToObject(sdpRecord, schema, Review.class));
 
     }
 
@@ -81,10 +76,9 @@ class AvroUtilsTest {
     public void test_success_for_correct_json_to_avro_bytes() throws IOException {
 
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = avroUtils.jsonToAvroBytes(json);
+        byte[] bytes = AvroUtils.jsonToAvroBytes(json , schema , StructureRequest.class);
 
         Assertions.assertNotNull(bytes);
     }
@@ -93,20 +87,21 @@ class AvroUtilsTest {
     public void test_failure_for_incorrect_json_to_avro_bytes() throws IOException {
 
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = "{\"name\": \"TEST\" \"zip\": 77327}";
-        Assertions.assertThrows(RuntimeException.class, () -> avroUtils.jsonToAvroBytes(json));
+        Assertions.assertThrows(RuntimeException.class,
+                () -> AvroUtils.jsonToAvroBytes(json, schema, StructureRequest.class));
     }
 
     @Test
     public void test_failure_for_null_json_to_avro_bytes() throws IOException {
 
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
-        AvroUtils avroUtils = new AvroUtils(schema);
 
         String json = null;
-        Assertions.assertThrows(RuntimeException.class, () -> avroUtils.jsonToAvroBytes(json));
+        Assertions.assertThrows(RuntimeException.class,
+                () -> AvroUtils.jsonToAvroBytes(json, schema , StructureRequest.class));
+
     }
 
 

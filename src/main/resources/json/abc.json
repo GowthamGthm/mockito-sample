@@ -1,0 +1,122 @@
+{
+  "application_id": "7658954",
+  "deal_structure_id": "-1536337037",
+  "annual_percentage_rate": 13.4,
+  "computed_annual_percentage_rate": 12.19,
+  "computed_monthly_payment_amount": 500.0,
+  "computed_total_finance_amount": 2000.0,
+  "finance_charge_amount": 1000.0,
+  "flow_down_message_key_look_up_id": "857",
+  "loan_term": 72,
+  "loan_to_value_percentage": 144.19,
+  "monthly_payment_amount": 400.23,
+  "offer_type_code": "FINALDEAL",
+  "participation_bonus_amount": 150.09,
+  "total_financed_amount": 350.03,
+  "total_fee_amount": 0.0,
+  "relationship_manager_buy_rate_percentage": 200.98,
+  "net_trade": 5.05,
+  "florida_document_fee_amount": 200.98,
+  "previous_combined_income": "3200.98000000000001818989403545856475830078125",
+  "total_combined_income": 3200.98,
+  "payment_to_income_percentage": 3200.98,
+  "first_payment_date": "2017-03-27 11:57:30.0",
+  "maintenance_contract_amount": 3200.98,
+  "score": 1200.0,
+  "updated_timestamp": 1490633850000,
+  "updated_by_associate_id": "1234567",
+  "dealer_back_end": {
+    "warranty_amount": 199.0,
+    "guaranteed_asset_protection_insurance_amount": 50.09,
+    "credit_life_insurance_amount": 200.09,
+    "accidental_health_insurance_amount": 149.99,
+    "backend_end_percentage": 14.99
+  },
+  "dealer_front_end": {
+    "cash_down_amount": 199.0,
+    "document_fee_amount": 50.09,
+    "manufacture_rebate_amount": 200.09,
+    "other_front_end_fee_amount": 149.99,
+    "total_down_payment_amount": 200.09,
+    "front_end_amount": 149.99,
+    "front_end_percentage": 14.99,
+    "front_end_proxy_pricing_percentage": 14.99
+  },
+  "dealer_impact": {
+    "dealer_proceeds_amount": 400.0,
+    "participation_bonus_amount": 150.09,
+    "relationship_manager_flat_bonus_amount": 290.09,
+    "dealer_split_method": "",
+    "dealer_split_percentage": 0.0
+  },
+  "tax_title_license": {
+    "license_fee_amount": 190.0,
+    "sales_tax_amount": 120.09,
+    "title_fee_amount": 390.09,
+    "tax_title_license_total_amount": 590.09
+  },
+  "pricing_point": {
+    "override_reason_lookup_id": "145678",
+    "adjustment_fee_amount": 190.0,
+    "system_effective_buy_rate_percentage": 4.59,
+    "relationship_manager_effective_buy_rate_percentage": 978765.0,
+    "rate_flex_reason_lookup_id": "234678",
+    "credit_policy_rate_flex_reason_lookup_id": "120005",
+    "divisional_reason_lookup_id": "120005",
+    "was_dealer_rate_flex_applied": true,
+    "true_front_end_percentage": 1200.0,
+    "model_income_amount": 1200.0,
+    "stipulation_model_score": 1200.0,
+    "model_ratio": 564987,
+    "application_level_exception_id": "564987",
+    "app_level_exception": "BOTH_MODEL_OVERTURN",
+    "updated_date": "2017-03-27 11:57:30.0",
+    "updated_by_user_id": "1234567",
+    "proxy_profit": {
+      "total_compensation_amount": 199.0,
+      "total_bank_impact_amount": 50.09,
+      "credit_policy_exception_total_cost_amount": 200.09
+    }
+  },
+  "field_level_exceptions": [
+    {
+      "credit_policy_exception_name": "DealerNavException",
+      "credit_policy_exception_level": "2",
+      "credit_policy_exception_value": "",
+      "credit_policy_exception_limit": 2.0,
+      "credit_policy_exception_description": "There is an exception request from Dealer Navigator",
+      "submitter_name": "",
+      "submitter_custom_message": "",
+      "source_system": ""
+    }
+  ],
+  "contract": {
+    "is_check_in_house": false,
+    "interest_start_date": "",
+    "is_first_payment_short_funded": false
+  },
+  "fees": [
+    {
+      "additional_fee_amount": 290.0,
+      "association_code": "DEALER",
+      "fee_amount": 250.09,
+      "fee_type_lookup_id": "145678",
+      "fee_waived_amount": 220.09,
+      "fee_waived_by_code": "USER",
+      "offer_code": "FINALDEAL",
+      "updated_date": "2017-03-27 11:57:30.0",
+      "updated_by_user_id": "1234567"
+    },
+    {
+      "additional_fee_amount": 290.0,
+      "association_code": "DEALER",
+      "fee_amount": 250.09,
+      "fee_type_lookup_id": "145678",
+      "fee_waived_amount": 220.09,
+      "fee_waived_by_code": "USER",
+      "offer_code": "FINALDEAL",
+      "updated_date": "2017-03-27 11:57:30.0",
+      "updated_by_user_id": "1234567"
+    }
+  ]
+}

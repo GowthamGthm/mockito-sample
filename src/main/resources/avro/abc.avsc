@@ -1,0 +1,541 @@
+{
+  "name": "auto_exception_notifications_created_v7",
+  "namespace": "com.capitalone.BAREBEL",
+  "doc": "When an Auto loan dealer raise application request to make changes in the contract, an event will be",
+  "type": "record",
+  "fields": [
+    {
+      "name": "application_id",
+      "doc": "Record identifier for the Loan Application. This field contains random number in String format.",
+      "type": "string"
+    },
+    {
+      "name": "deal_structure_id",
+      "doc": "Record identifier for the deal data. This field contains random number in String format.",
+      "type": "string"
+    },
+    {
+      "name": "annual_percentage_rate",
+      "doc": "Estimated or calculated APR for this deal",
+      "type": "float"
+    },
+    {
+      "name": "computed_annual_percentage_rate",
+      "doc": "The Computed APR is the Annual Percentage Rate as calculated by Policy Engine based on different rules",
+      "type": "float"
+    },
+    {
+      "name": "computed_monthly_payment_amount",
+      "doc": "The Computed Monthly Payment Amount is the loan monthly payment amount as calculated by Policy Engine based on different rules",
+      "type": "float"
+    },
+    {
+      "name": "computed_total_finance_amount",
+      "doc": "The Computed Total Amount Financed is the full amount of the loan which will be taken by COAF, not including any interest charges",
+      "type": "float"
+    },
+    {
+      "name": "finance_charge_amount",
+      "doc": "Total Finance Charge",
+      "type": "float"
+    },
+    {
+      "name": "flow_down_message_key_look_up_id",
+      "doc": "Stores the type of flow down based on application drivers. This field contains a random decimal value in String format.",
+      "type": "string"
+    },
+    {
+      "name": "loan_term",
+      "doc": "Loan term for the offer in months",
+      "type": "int"
+    },
+    {
+      "name": "loan_to_value_percentage",
+      "doc": "Loan to Value Ratio returned as Percentage by Rule Engine",
+      "type": "float"
+    },
+    {
+      "name": "monthly_payment_amount",
+      "doc": "Estimated monthly payment to be paid by applicants",
+      "type": "float"
+    },
+    {
+      "name": "offer_type_code",
+      "doc": "Different types of offer codes. Initial Deal -when Apps are submitted into system. Final Deal -When apps are decisioned.Final contract-When contract is signed",
+      "type": "string"
+    },
+    {
+      "name": "participation_bonus_amount",
+      "doc": "Bonus amount we pay the dealer for signing up a good customer at a low rate\n",
+      "type": "float"
+    },
+    {
+      "name": "total_financed_amount",
+      "doc": "Amount to be Financed for the loan.",
+      "type": "float"
+    },
+    {
+      "name": "total_fee_amount",
+      "doc": "Total Fee amount incurred",
+      "type": "float"
+    },
+    {
+      "name": "relationship_manager_buy_rate_percentage",
+      "doc": "Relationship Manager buy rate for a deal",
+      "type": "float"
+    },
+    {
+      "name": "net_trade",
+      "doc": "Net trade value for a trade-in vehicle in deal.",
+      "type": "float"
+    },
+    {
+      "name": "florida_document_fee_amount",
+      "doc": "Florida doc stamp fee.this is specific to Florida state",
+      "type": "float"
+    },
+    {
+      "name": "previous_combined_income",
+      "doc": "Previous combined income of the applicant and the co applicant",
+      "type": "string"
+    },
+    {
+      "name": "total_combined_income",
+      "doc": "Total combined income of the applicant and the co applicant",
+      "type": "float"
+    },
+    {
+      "name": "payment_to_income_percentage",
+      "doc": "The percentage ratio of the monthly payment of the auto loan to the income of the applicant and co applicant",
+      "type": "float"
+    },
+    {
+      "name": "first_payment_date",
+      "doc": "First payment date ,expressed in ISO 8601 format YYYY-MM-DDThh mm:ss.sTZD.",
+      "type": "string"
+    },
+    {
+      "name": "maintenance_contract_amount",
+      "doc": "Maintenance contract amount",
+      "type": "float"
+    },
+    {
+      "name": "score",
+      "doc": "The pricing model vulcan score obtained from the pricing engine.",
+      "type": "float"
+    },
+    {
+      "name": "updated_timestamp",
+      "doc": "Updated timestamp,expressed in ISO 8601 format YYYY-MM-DDThh mm:ss.sTZD.",
+      "type": "long"
+    },
+    {
+      "name": "updated_by_associate_id",
+      "doc": "Associate id of the user updating the deal structure. Details of the associate can be obtained by calling the associates API /loans/auto-loans/associates/{associateId}. This field contains random number in String format.",
+      "type": "string"
+    },
+    {
+      "name": "dealer_back_end",
+      "doc": "Dealer back end value object",
+      "type": {
+        "name": "dealer_back_end_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "warranty_amount",
+            "doc": "It is an extra amount of money collected by the dealer from the Customer, and added to the total auto loan amount.",
+            "type": "float"
+          },
+          {
+            "name": "guaranteed_asset_protection_insurance_amount",
+            "doc": "The insurance amount to cover any gap in loan spread coverage.",
+            "type": "float"
+          },
+          {
+            "name": "credit_life_insurance_amount",
+            "doc": "It is an extra amount of money collected by the dealer from the Customer, and added to the total auto loan amount, for the cost of premiums for a Credit Life Insurance policy.",
+            "type": "float"
+          },
+          {
+            "name": "accidental_health_insurance_amount",
+            "doc": "It is an extra amount of money collected by the dealer from the Customer, and added to the total auto loan amount, for the cost of premiums for a Accident and Health Insurance policy",
+            "type": "float"
+          },
+          {
+            "name": "backend_end_percentage",
+            "doc": "Its the percentage calculated based on the backend total amount.Including all the above amounts.",
+            "type": "float"
+          }
+        ]
+      }
+    },
+    {
+      "name": "dealer_front_end",
+      "doc": "Dealer front end value object.",
+      "type": {
+        "name": "dealer_front_end_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "cash_down_amount",
+            "doc": "Amount of cash paid by the Customer to the auto dealer in order to lower the auto loan amount.",
+            "type": "float"
+          },
+          {
+            "name": "document_fee_amount",
+            "doc": "Fee incurred for Documentation .",
+            "type": "float"
+          },
+          {
+            "name": "manufacture_rebate_amount",
+            "doc": "It is a cash amount given by the vehicle manufacturer to the Customer, in order to lower the actual cost of the vehicle.",
+            "type": "float"
+          },
+          {
+            "name": "other_front_end_fee_amount",
+            "doc": "Miscellaneous fee Amount.Other than what is mentioned above",
+            "type": "float"
+          },
+          {
+            "name": "total_down_payment_amount",
+            "doc": "Sum of cash down and net trade-in allowance including manufacturer rebate.",
+            "type": "float"
+          },
+          {
+            "name": "front_end_amount",
+            "doc": "Front end amount . Revenue realized from the sale of the vehicle.",
+            "type": "float"
+          },
+          {
+            "name": "front_end_percentage",
+            "doc": "Percentage value of total front end amount.",
+            "type": "float"
+          },
+          {
+            "name": "front_end_proxy_pricing_percentage",
+            "doc": "Front end proxy pricing percentage",
+            "type": "float"
+          }
+        ]
+      }
+    },
+    {
+      "name": "dealer_impact",
+      "doc": "Dealer impact value object.",
+      "type": {
+        "name": "dealer_impact_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "dealer_proceeds_amount",
+            "doc": "Amount of cash paid by the Customer to the auto dealer in order to lower the auto loan amount.",
+            "type": "float"
+          },
+          {
+            "name": "participation_bonus_amount",
+            "doc": "Bonus amount we pay the dealer for signing up a good customer at a low rate.The amount paid is based on the range of APR that was choosen. The lower the rate, the higher the reserve paid.",
+            "type": "float"
+          },
+          {
+            "name": "relationship_manager_flat_bonus_amount",
+            "doc": "Bonus amount we pay to the dealer as determined by the RM.",
+            "type": "float"
+          },
+          {
+            "name": "dealer_split_method",
+            "doc": "Describes if the dealer receives a flat amount or a percentage as a split. A flat is a fixed amount.",
+            "type": "string"
+          },
+          {
+            "name": "dealer_split_percentage",
+            "doc": "Describes the dealer percentage split. Possible values are a percentage like 80 , 75 etc.",
+            "type": "float"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tax_title_license",
+      "doc": "Value object to hold Tax,Title and License.",
+      "type": {
+        "name": "tax_title_license_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "license_fee_amount",
+            "doc": "It is an extra amount of money collected by the dealer from the Customer, and added to the total auto loan amount, for the expense of securing new License Tags for the vehicle.",
+            "type": "float"
+          },
+          {
+            "name": "sales_tax_amount",
+            "doc": "Sales tax amount for the vehicle",
+            "type": "float"
+          },
+          {
+            "name": "title_fee_amount",
+            "doc": "Title fee amount for the vehicle",
+            "type": "float"
+          },
+          {
+            "name": "tax_title_license_total_amount",
+            "doc": "Total Tax, title and license amount",
+            "type": "float"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pricing_point",
+      "doc": "Value object to pricing attributes.",
+      "type": {
+        "name": "pricing_point_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "override_reason_lookup_id",
+            "doc": "Its a unique identifier Supervisor Override Reason. This field contains a random decimal value in String format.",
+            "type": "string"
+          },
+          {
+            "name": "adjustment_fee_amount",
+            "doc": "Adjustment Fee - Fee used in Compensation.",
+            "type": "float"
+          },
+          {
+            "name": "system_effective_buy_rate_percentage",
+            "doc": "System Effective Buy Rate Percentage, output from BRE.",
+            "type": "float"
+          },
+          {
+            "name": "relationship_manager_effective_buy_rate_percentage",
+            "doc": "RM Effective Buy Rate Percentage, output from BRE.",
+            "type": "float"
+          },
+          {
+            "name": "rate_flex_reason_lookup_id",
+            "doc": "Its a unique identifier for SHR_LKUP table for Buy Rate Flex Exception Reason. This field contains a random decimal value in String format.",
+            "type": "string"
+          },
+          {
+            "name": "credit_policy_rate_flex_reason_lookup_id",
+            "doc": "Its a unique identifier for SHR_LKUP table for Credit Policy Rate Flex Exception Reason. This field contains a random decimal value in String format.",
+            "type": "string"
+          },
+          {
+            "name": "divisional_reason_lookup_id",
+            "doc": "Its a unique identifier for SHR_LKUP table for Divisional Exception Reason. This field contains a random decimal value in String format.",
+            "type": "string"
+          },
+          {
+            "name": "was_dealer_rate_flex_applied",
+            "doc": "Indicates if the dealer applied has applied the rate flex.",
+            "type": "boolean"
+          },
+          {
+            "name": "true_front_end_percentage",
+            "doc": "Front end percentage calculated by policy engine",
+            "type": "float"
+          },
+          {
+            "name": "model_income_amount",
+            "doc": "Calculated by rules engine..",
+            "type": "float"
+          },
+          {
+            "name": "stipulation_model_score",
+            "doc": "Score calculated based on the stipulation model.calculated by rules engine",
+            "type": "float"
+          },
+          {
+            "name": "model_ratio",
+            "doc": "Pricing Model Score Ratio Percentage",
+            "type": "int"
+          },
+          {
+            "name": "application_level_exception_id",
+            "doc": "App level exception Id. This field contains a random decimal value in String format.",
+            "type": "string"
+          },
+          {
+            "name": "app_level_exception",
+            "doc": "App level exception",
+            "type": "string"
+          },
+          {
+            "name": "proxy_profit",
+            "doc": "Proxy profit calculated by BRE.",
+            "type": {
+              "name": "proxy_profit_record",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "total_compensation_amount",
+                  "doc": "Total Compensation Amount .BRE calculated total compensation for RM on the app.",
+                  "type": "float"
+                },
+                {
+                  "name": "total_bank_impact_amount",
+                  "doc": "Total Bank Impact Amount .BRE calculated total bank impact(cost) for RM on the app",
+                  "type": "float"
+                },
+                {
+                  "name": "credit_policy_exception_total_cost_amount",
+                  "doc": "CP Exception Total Cost Amount .BRE calculated total cost to RM for all CP exception.",
+                  "type": "float"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updated_date",
+            "doc": "Updated date, expressed in ISO 8601 format YYYY-MM-DDThh mm:ss.sTZD.",
+            "type": "string"
+          },
+          {
+            "name": "updated_by_user_id",
+            "doc": "Associate id of the user updating the deal structure. Details of the associate can be obtained by calling the associates API /loans/auto-loans/associates/{associateId}. It's a random number in String format.",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "fees",
+      "doc": "Array of fee records",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "fee",
+          "doc": "Details about field level exceptions",
+          "type": "record",
+          "fields": [
+            {
+              "name": "additional_fee_amount",
+              "doc": "Amount Added to the Fee.This field is populated by Outbound Process Flow.",
+              "type": "float"
+            },
+            {
+              "name": "association_code",
+              "doc": "Tells whether The Fee is associated with Customer or Dealer.",
+              "type": "string"
+            },
+            {
+              "name": "fee_amount",
+              "doc": "Amount of fee.",
+              "type": "float"
+            },
+            {
+              "name": "fee_type_lookup_id",
+              "doc": "Stores the Fee Type.It can take values like doc fee, title fee, etc. This field contains a random number in String format.",
+              "type": "string"
+            },
+            {
+              "name": "fee_waived_amount",
+              "doc": "Amount Waived on the Fee.This field is populated by Outbound Process Flow.",
+              "type": "float"
+            },
+            {
+              "name": "fee_waived_by_code",
+              "doc": "Tells whether the Fee is Waived by System or User.This field is populated by Outbound Process Flow.",
+              "type": "string"
+            },
+            {
+              "name": "offer_code",
+              "doc": "Different types of loan offer .",
+              "type": "string"
+            },
+            {
+              "name": "updated_by_user_id",
+              "doc": "Id of the user updating the deal structure. Details of the user can be obtained by calling the associates API /loans/auto-loans/associates/{associateId}. This field contains a random number in String format.",
+              "type": "string"
+            },
+            {
+              "name": "updated_date",
+              "doc": "Updated date, expressed in ISO 8601 format YYYY-MM-DDThh mm:ss.sTZD.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "field_level_exceptions",
+      "doc": "Array of field level exceptions",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "field_level_exception",
+          "doc": "Details about field level exceptions",
+          "type": "record",
+          "fields": [
+            {
+              "name": "credit_policy_exception_name",
+              "doc": "The name of a field level credit policy exception.",
+              "type": "string"
+            },
+            {
+              "name": "credit_policy_exception_level",
+              "doc": "The level of a field level credit policy exception",
+              "type": "string"
+            },
+            {
+              "name": "credit_policy_exception_value",
+              "doc": "The field value that exceeded the limit set by capital one credit policy.",
+              "type": "string"
+            },
+            {
+              "name": "credit_policy_exception_limit",
+              "doc": "Limit of the field set by credit policy.",
+              "type": "float"
+            },
+            {
+              "name": "credit_policy_exception_description",
+              "doc": "Detail description from credit policy engine for the field level exception.",
+              "type": "string"
+            },
+            {
+              "name": "submitter_name",
+              "doc": "Name of the individual requesting for the exception",
+              "type": "string"
+            },
+            {
+              "name": "submitter_custom_message",
+              "doc": "A custom note/msg justifying the exception request",
+              "type": "string"
+            },
+            {
+              "name": "source_system",
+              "doc": "Exception request origination system.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "contract",
+      "doc": "Details on the contract",
+      "type": {
+        "name": "contract_record",
+        "type": "record",
+        "fields": [
+          {
+            "name": "is_check_in_house",
+            "doc": "Indicates if the check is in house",
+            "type": "boolean"
+          },
+          {
+            "name": "interest_start_date",
+            "doc": "Date on which interest on the loan starts, expressed in ISO 8601 format YYYY-MM-DDThh mm:ss:sTZD",
+            "type": "string"
+          },
+          {
+            "name": "is_first_payment_short_funded",
+            "doc": "Indicates if the first payment is short funded",
+            "type": "boolean"
+          }
+        ]
+      }
+    }
+  ]
+}

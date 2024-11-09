@@ -1,64 +1,46 @@
 package com.gthm.api.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.avro.AvroMapper;
+import com.fasterxml.jackson.dataformat.avro.AvroSchema;
 import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.generic.GenericDatumWriter;
-import org.apache.avro.io.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class AvroUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(AvroUtils.class);
 
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final Schema avroSchema;
+    private static final ObjectMapper objMapper = new ObjectMapper();
+    static AvroMapper avroMapper = new AvroMapper();
 
-    public AvroUtils(Schema avroSchema) {
-        this.avroSchema = avroSchema;
-    }
-
-    public byte[] jsonToAvroBytes(String json) {
-
-        DatumReader<Object> reader = new GenericDatumReader<>(this.avroSchema);
-        GenericDatumWriter<Object> writer = new GenericDatumWriter<>(this.avroSchema);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+    public static byte[] jsonToAvroBytes(String json, Schema schema, Class clazz) {
 
         try {
-            Decoder decoder = DecoderFactory.get().jsonDecoder(this.avroSchema, json);
-            Encoder encoder = EncoderFactory.get().binaryEncoder(output, null);
-            Object datum = reader.read(null, decoder);
-            writer.write(datum, encoder);
-            encoder.flush();
-            return output.toByteArray();
+            AvroSchema avroSchema = avroMapper.schemaFrom(schema.toString());
+            Object obj = objMapper.readValue(json, clazz);
+
+            byte[] bytes = avroMapper.writer(avroSchema)
+                                     .writeValueAsBytes(obj);
+            return bytes;
         } catch (IOException e) {
             LOG.error("Exception while converting json to avro bytes", e);
             throw new RuntimeException(e);
         }
-
     }
 
 
-    public Object avroBytesToObject(SdpRecord record, Class clazz)  {
-
-        GenericDatumReader<Object> reader = new GenericDatumReader<>(this.avroSchema);
-        DatumWriter<Object> writer = new GenericDatumWriter<>(this.avroSchema);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+    public static Object avroBytesToObject(SdpRecord record, Schema schema, Class clazz) {
 
         try {
-            JsonEncoder encoder = EncoderFactory.get().jsonEncoder(this.avroSchema, output, false);
-            Decoder decoder = DecoderFactory.get().binaryDecoder(record.value, null);
-            Object datum = reader.read(null, decoder);
-            writer.write(datum, encoder);
-            encoder.flush();
-            output.flush();
-            byte[] byteArray = output.toByteArray();
 
-            Object obj = mapper.readValue(byteArray, clazz);
+            AvroSchema avroSchema = avroMapper.schemaFrom(schema.toString());
+
+            Object obj = avroMapper.readerFor(clazz)
+                                   .with(avroSchema)
+                                   .readValue(record.value);
             return obj;
         } catch (IOException e) {
             LOG.error("Exception while converting avro bytes to object", e);
