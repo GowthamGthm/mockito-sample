@@ -14,10 +14,10 @@ public class AvroUtils {
     private static final Logger LOG = LoggerFactory.getLogger(AvroUtils.class);
 
     private static final ObjectMapper objMapper = new ObjectMapper();
-    static AvroMapper avroMapper = new AvroMapper();
+
 
     public static byte[] jsonToAvroBytes(String json, Schema schema, Class clazz) {
-
+        AvroMapper avroMapper = new AvroMapper();
         try {
             AvroSchema avroSchema = avroMapper.schemaFrom(schema.toString());
             Object obj = objMapper.readValue(json, clazz);
@@ -33,7 +33,7 @@ public class AvroUtils {
 
 
     public static Object avroBytesToObject(SdpRecord record, Schema schema, Class clazz) {
-
+        AvroMapper avroMapper = new AvroMapper();
         try {
 
             AvroSchema avroSchema = avroMapper.schemaFrom(schema.toString());
