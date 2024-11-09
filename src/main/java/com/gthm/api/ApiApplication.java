@@ -13,12 +13,4 @@ public class ApiApplication {
 	}
 
 
-//	public static void main(String[] args) throws JsonProcessingException {
-//
-//		Pokemon pokemon = Instancio.create(Pokemon.class);
-//		System.out.println(new ObjectMapper().writeValueAsString(pokemon));
-//
-//
-//	}
-
 }

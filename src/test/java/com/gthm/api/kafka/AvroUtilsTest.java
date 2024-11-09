@@ -1,5 +1,6 @@
 package com.gthm.api.kafka;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gthm.api.kafka.model.StructureRequest;
 import com.gthm.api.models.Review;
 import org.apache.avro.Schema;
@@ -16,6 +17,7 @@ class AvroUtilsTest {
 
     private final String AVSC_FILE_PATH = "avro/auto_message.avsc";
     private final String JSON_FILE_PATH = "json/pokemon.json";
+    ObjectMapper mapper = new ObjectMapper();
 
 
     @Test
@@ -23,7 +25,26 @@ class AvroUtilsTest {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = AvroUtils.jsonToAvroBytes(json , schema , StructureRequest.class);
+        StructureRequest structureRequest = mapper.readValue(json, StructureRequest.class);
+
+        byte[] bytes = AvroUtils.jsonToAvroBytes(structureRequest, schema);
+        SdpRecord sdpRecord = new SdpRecord(bytes, "json");
+
+        StructureRequest obj = (StructureRequest) AvroUtils.avroBytesToObject(sdpRecord, schema,
+                StructureRequest.class);
+
+        Assertions.assertNotNull(obj);
+        Assertions.assertEquals(8301, obj.getId());
+    }
+
+    @Test
+    public void test_success_parse_2() throws IOException {
+        Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
+
+        String json = FileHelper.getFileContents(JSON_FILE_PATH);
+        StructureRequest structureRequest = mapper.readValue(json, StructureRequest.class);
+
+        byte[] bytes = AvroUtils.jsonToAvroBytes(structureRequest, schema);
         SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
         StructureRequest obj = (StructureRequest) AvroUtils.avroBytesToObject(sdpRecord, schema,
@@ -61,7 +82,9 @@ class AvroUtilsTest {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = AvroUtils.jsonToAvroBytes(json, schema , StructureRequest.class);
+        StructureRequest structureRequest = mapper.readValue(json, StructureRequest.class);
+
+        byte[] bytes = AvroUtils.jsonToAvroBytes(structureRequest, schema);
         SdpRecord sdpRecord = new SdpRecord(bytes, "json");
 
         Assertions.assertThrows(RuntimeException.class,
@@ -78,7 +101,9 @@ class AvroUtilsTest {
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_FILE_PATH));
 
         String json = FileHelper.getFileContents(JSON_FILE_PATH);
-        byte[] bytes = AvroUtils.jsonToAvroBytes(json , schema , StructureRequest.class);
+        StructureRequest structureRequest = mapper.readValue(json, StructureRequest.class);
+
+        byte[] bytes = AvroUtils.jsonToAvroBytes(structureRequest, schema);
 
         Assertions.assertNotNull(bytes);
     }
@@ -90,7 +115,7 @@ class AvroUtilsTest {
 
         String json = "{\"name\": \"TEST\" \"zip\": 77327}";
         Assertions.assertThrows(RuntimeException.class,
-                () -> AvroUtils.jsonToAvroBytes(json, schema, StructureRequest.class));
+                () -> AvroUtils.jsonToAvroBytes(json, schema));
     }
 
     @Test
@@ -100,7 +125,7 @@ class AvroUtilsTest {
 
         String json = null;
         Assertions.assertThrows(RuntimeException.class,
-                () -> AvroUtils.jsonToAvroBytes(json, schema , StructureRequest.class));
+                () -> AvroUtils.jsonToAvroBytes(json, schema));
 
     }
 

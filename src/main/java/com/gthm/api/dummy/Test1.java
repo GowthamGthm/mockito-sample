@@ -1,5 +1,6 @@
 package com.gthm.api.dummy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.avro.AvroMapper;
 import com.fasterxml.jackson.dataformat.avro.AvroSchema;
 import com.gthm.api.kafka.AvroUtils;
@@ -15,6 +16,7 @@ public class Test1 {
 
     static String AVSC_PATH = "avro/auto_message.avsc";
     static String JSON_PATH = "json/pokemon.json";
+    static ObjectMapper mapper = new ObjectMapper();
 
 
     public static void main(String[] args) throws IOException {
@@ -22,14 +24,14 @@ public class Test1 {
         String avscContent = FileHelper.getFileContents(AVSC_PATH);
         Schema schema = FileHelper.loadSchemaFile(new ClassPathResource(AVSC_PATH));
 
-//        AvroUtils avroUtils = new AvroUtils(schema);
-        byte[] bytes = AvroUtils.jsonToAvroBytes(FileHelper.getFileContents(JSON_PATH) , schema , StructureRequest.class);
-        SdpRecord sdpRecord = new SdpRecord(bytes, "");
+        String json = FileHelper.getFileContents(JSON_PATH);
+        StructureRequest structureRequest = mapper.readValue(json, StructureRequest.class);
 
+        byte[] bytes = AvroUtils.jsonToAvroBytes(structureRequest, schema);
+        SdpRecord sdpRecord = new SdpRecord(bytes, "");
 
         AvroMapper mapper = AvroMapper.builder().build();
         AvroSchema avroSchema = mapper.schemaFrom(schema.toString());
-
 
         StructureRequest obj = mapper.readerFor(StructureRequest.class)
                                      .with(avroSchema)

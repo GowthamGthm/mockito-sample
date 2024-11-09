@@ -3,6 +3,7 @@ package com.gthm.api.kafka;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.avro.AvroMapper;
 import com.fasterxml.jackson.dataformat.avro.AvroSchema;
+import com.gthm.api.kafka.model.StructureRequest;
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +14,11 @@ public class AvroUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(AvroUtils.class);
 
-    private static final ObjectMapper objMapper = new ObjectMapper();
 
-
-    public static byte[] jsonToAvroBytes(String json, Schema schema, Class clazz) {
+    public static byte[] jsonToAvroBytes(Object obj ,  Schema schema) {
         AvroMapper avroMapper = new AvroMapper();
         try {
             AvroSchema avroSchema = avroMapper.schemaFrom(schema.toString());
-            Object obj = objMapper.readValue(json, clazz);
-
             byte[] bytes = avroMapper.writer(avroSchema)
                                      .writeValueAsBytes(obj);
             return bytes;
